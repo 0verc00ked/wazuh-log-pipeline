@@ -9,7 +9,11 @@ export MANAGER_URL="${MANAGER_URL:-localhost}"
 export MANAGER_PORT="${MANAGER_PORT:-1515}"
 export SERVER_URL="${SERVER_URL:-localhost}"
 export SERVER_PORT="${SERVER_PORT:-1514}"
-export NAME="${NAME:-agent}-${RANDOM_NAME}"
+if [ -n "$NAME" ]; then
+  export NAME="$NAME"
+else
+  export NAME="agent-${RANDOM_NAME}"
+fi
 echo $NAME
 export GROUP="${GROUP:-default}"
 export ENROL_TOKEN="${ENROL_TOKEN:-}"

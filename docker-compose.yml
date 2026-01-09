@@ -9,6 +9,7 @@ services:
       - "9000:9000"
     volumes:
       -  ./code:/var/ossec/wodles/code
+      - agent-ingest-ossec-etc:/var/ossec/etc
     environment:
       - "MANAGER_URL=${MANAGER_URL:-localhost}"
       - "MANAGER_PORT=${MANAGER_PORT:-1515}"
@@ -37,6 +38,7 @@ services:
       - "${AGENT_REGULAR_PORT:-9001}:9000"
     volumes:
       -  ./code:/var/ossec/wodles/code
+      - agent-regular-ossec-etc:/var/ossec/etc
     environment:
       - "MANAGER_URL=${MANAGER_URL:-localhost}"
       - "MANAGER_PORT=${MANAGER_PORT:-1515}"
@@ -45,3 +47,7 @@ services:
       - "NAME=${NAME:-agent-regular}"
       - "GROUP=${GROUP:-default}"
       - "ENROL_TOKEN=${ENROL_TOKEN:-}"
+
+volumes:
+  agent-ingest-ossec-etc:
+  agent-regular-ossec-etc:
