@@ -28,7 +28,8 @@ RUN curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --no-default-keyr
 RUN echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list 
 
 
-RUN apt-get update && apt-get install -y wazuh-agent --no-install-recommends && apt-get clean \
+ARG WAZUH_AGENT_VERSION
+RUN apt-get update && if [ -n "$WAZUH_AGENT_VERSION" ]; then apt-get install -y wazuh-agent="$WAZUH_AGENT_VERSION" --no-install-recommends; else apt-get install -y wazuh-agent --no-install-recommends; fi && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
 

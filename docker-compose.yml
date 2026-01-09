@@ -1,6 +1,9 @@
 services:
   agent-ingest:
-    build: .
+    build:
+      context: .
+      args:
+        - "WAZUH_AGENT_VERSION=${WAZUH_AGENT_VERSION:-}"
     image: sammascanner/wazuh-agent:ingets_0.2
     ports: 
       - "9000:9000"
@@ -25,7 +28,10 @@ services:
 
   agent-regular:
     build:
+      context: .
       dockerfile: Dockerfile.agent
+      args:
+        - "WAZUH_AGENT_VERSION=${WAZUH_AGENT_VERSION:-}"
     image: sammascanner/wazuh-agent:regular_0.2
     ports: 
       - "${AGENT_REGULAR_PORT:-9001}:9000"
