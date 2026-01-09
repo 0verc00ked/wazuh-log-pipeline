@@ -7,15 +7,15 @@ services:
     volumes:
       -  ./code:/var/ossec/wodles/code
     environment:
-      - "MANAGER_URL=${MANAGER_URL:?MANAGER_URL is required}"
-      - "MANAGER_PORT=${MANAGER_PORT:?MANAGER_PORT is required}"
-      - "SERVER_URL=${SERVER_URL:?SERVER_URL is required}"
-      - "SERVER_PORT=${SERVER_PORT:?SERVER_PORT is required}"
-      - "NAME=${NAME:?NAME is required}"
-      - "GROUP=${GROUP:?GROUP is required}"
-      - "ENROL_TOKEN=${ENROL_TOKEN:?ENROL_TOKEN is required}"
-      - "API_KEY=${API_KEY:?API_KEY is required}" # REQUIRED: set in server environment
-      - "WAZUH_DECODER_HEADER=1:Wazuh-AWS:" # Optional: Header for log ingestion
+      - "MANAGER_URL=${MANAGER_URL:-localhost}"
+      - "MANAGER_PORT=${MANAGER_PORT:-1515}"
+      - "SERVER_URL=${SERVER_URL:-localhost}"
+      - "SERVER_PORT=${SERVER_PORT:-1514}"
+      - "NAME=${NAME:-agent-ingest}"
+      - "GROUP=${GROUP:-default}"
+      - "ENROL_TOKEN=${ENROL_TOKEN:-}"
+      - "API_KEY=${API_KEY:-}"
+      - "WAZUH_DECODER_HEADER=${WAZUH_DECODER_HEADER:-1:Wazuh-AWS:}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
       interval: 30s
@@ -28,14 +28,14 @@ services:
       dockerfile: Dockerfile.agent
     image: sammascanner/wazuh-agent:regular_0.2
     ports: 
-      - "9001:9000"
+      - "${AGENT_REGULAR_PORT:-9001}:9000"
     volumes:
       -  ./code:/var/ossec/wodles/code
     environment:
-      - "MANAGER_URL=${MANAGER_URL:?MANAGER_URL is required}"
-      - "MANAGER_PORT=${MANAGER_PORT:?MANAGER_PORT is required}"
-      - "SERVER_URL=${SERVER_URL:?SERVER_URL is required}"
-      - "SERVER_PORT=${SERVER_PORT:?SERVER_PORT is required}"
-      - "NAME=${NAME:?NAME is required}"
-      - "GROUP=${GROUP:?GROUP is required}"
-      - "ENROL_TOKEN=${ENROL_TOKEN:?ENROL_TOKEN is required}"
+      - "MANAGER_URL=${MANAGER_URL:-localhost}"
+      - "MANAGER_PORT=${MANAGER_PORT:-1515}"
+      - "SERVER_URL=${SERVER_URL:-localhost}"
+      - "SERVER_PORT=${SERVER_PORT:-1514}"
+      - "NAME=${NAME:-agent-regular}"
+      - "GROUP=${GROUP:-default}"
+      - "ENROL_TOKEN=${ENROL_TOKEN:-}"
